@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pet {
+  id             Int      @id @default(autoincrement())
+  nome           String
+  especie        String
+  raca           String?
+  responsavel    String
+  dataNascimento DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  fotos          Foto[]
+}
+
+// Obs.: um índice único parcial (petId WHERE principal) é adicionado manualmente
+// na migration para garantir no máximo uma foto principal por pet.
+model Foto {
+  id            Int      @id @default(autoincrement())
+  petId         Int
+  nomeArquivo   String
+  caminhoBucket String
+  url           String
+  principal     Boolean  @default(false)
+  dataFoto      DateTime
+  createdAt     DateTime @default(now())
+  pet           Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+
+  @@index([petId, dataFoto])
+}
