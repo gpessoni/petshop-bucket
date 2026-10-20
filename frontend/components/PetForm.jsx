@@ -5,7 +5,7 @@ import Field from "./Field";
 import PhotoPicker from "./PhotoPicker";
 import { api } from "../lib/api";
 import { today } from "../lib/format";
-import { SPECIES } from "../lib/pets";
+import { BREEDS, SPECIES } from "../lib/pets";
 import { formText } from "../lib/utils";
 
 const FIELDS = ["name", "species", "breed", "owner", "birthDate"];
@@ -14,6 +14,7 @@ export default function PetForm({ onCancel, onSaved }) {
   const [photos, setPhotos] = useState({ files: [], mainIndex: null });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [species, setSpecies] = useState("");
 
   async function submit(event) {
     event.preventDefault();
@@ -48,12 +49,22 @@ export default function PetForm({ onCancel, onSaved }) {
           <Field label="Nome do pet *"><input name="name" placeholder="Ex.: Totó" required maxLength="50" /></Field>
           <Field label="Responsável *"><input name="owner" placeholder="Ex.: Gabriel" required maxLength="60" /></Field>
           <Field label="Espécie *">
-            <select name="species" defaultValue="" required>
+            <select name="species" value={species} onChange={(event) => setSpecies(event.target.value)} required>
               <option value="" disabled>Escolha uma opção</option>
               {SPECIES.map((species) => <option key={species}>{species}</option>)}
             </select>
           </Field>
-          <Field label="Raça *"><input name="breed" placeholder="Ex.: Dachshund, SRD..." required maxLength="60" /></Field>
+          <Field label="Raça *">
+            {BREEDS[species]?.length ? (
+              <select key={species} name="breed" defaultValue="" required>
+                <option value="" disabled>Escolha a raça</option>
+                {BREEDS[species].map((breed) => <option key={breed}>{breed}</option>)}
+                <option>Outra</option>
+              </select>
+            ) : (
+              <input key={species} name="breed" placeholder={species ? "Ex.: Mini, SRD..." : "Escolha a espécie primeiro"} required maxLength="60" disabled={!species} />
+            )}
+          </Field>
           <Field label="Data de nascimento *"><input name="birthDate" type="date" required max={today()} /></Field>
         </div>
 

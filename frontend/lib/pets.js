@@ -1,4 +1,16 @@
-export const SPECIES = ["Cachorro", "Gato", "Coelho", "Outro"];
+// Raças sugeridas por espécie (alimentam o dropdown do formulário). "Outro" usa campo livre.
+export const BREEDS = {
+  Cachorro: ["SRD (Vira-lata)", "Shih Tzu", "Poodle", "Golden Retriever", "Labrador", "Bulldog Francês", "Dachshund", "Yorkshire", "Spitz Alemão", "Pug", "Border Collie", "Pastor Alemão", "Husky Siberiano", "Pinscher", "Lhasa Apso", "Maltês", "Beagle", "Rottweiler"],
+  Gato: ["SRD (Vira-lata)", "Siamês", "Persa", "Maine Coon", "Angorá", "Ragdoll", "Bengal", "Sphynx", "British Shorthair", "Himalaio"],
+  Coelho: ["Mini Lop", "Holandês", "Angorá", "Mini Rex", "Lionhead", "Cabeça de Leão", "Rex"],
+  Hamster: ["Sírio", "Anão Russo", "Roborovski", "Chinês"],
+  "Porquinho-da-índia": ["Americano", "Abissínio", "Peruano", "Sheltie", "Teddy"],
+  Pássaro: ["Calopsita", "Periquito", "Canário", "Papagaio", "Agapornis", "Cacatua"],
+  Réptil: ["Tartaruga", "Jabuti", "Iguana", "Gecko", "Cobra do Milho", "Dragão Barbudo"],
+  Peixe: ["Beta", "Kinguio", "Neon", "Guppy", "Acará"],
+};
+
+export const SPECIES = [...Object.keys(BREEDS), "Outro"];
 
 export const speciesAndBreed = (pet) => [pet.species, pet.breed].filter(Boolean).join(" · ");
 
