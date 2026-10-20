@@ -43,11 +43,15 @@ async function criar(dados) {
 async function listar() {
   const pets = await prisma.pet.findMany({
     orderBy: { id: 'asc' },
-    include: { fotos: { where: { principal: true }, take: 1 } },
+    include: {
+      fotos: { where: { principal: true }, take: 1 },
+      _count: { select: { fotos: true } },
+    },
   });
-  return pets.map(({ fotos, ...pet }) => ({
+  return pets.map(({ fotos, _count, ...pet }) => ({
     ...pet,
     fotoPrincipalUrl: fotos[0] ? fotos[0].url : null,
+    totalFotos: _count.fotos,
   }));
 }
 
