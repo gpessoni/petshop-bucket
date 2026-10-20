@@ -37,7 +37,7 @@ npm start       # normal
 ```
 
 ## 7. Testar no Postman / Insomnia
-Base: `http://localhost:3000`
+Base: `http://localhost:3333`
 
 | Método | Endpoint | Observação |
 |---|---|---|
