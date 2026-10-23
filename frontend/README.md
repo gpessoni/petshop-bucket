@@ -11,7 +11,7 @@ Interface do álbum de pets em **Next.js 16 + React 19**, feita sem bibliotecas 
 
 - [Telas](#-telas)
 - [Como rodar](#-como-rodar)
-- [Modo mock x backend real](#-modo-mock-x-backend-real)
+- [Conexão com o backend](#-conexão-com-o-backend)
 - [Scripts](#-scripts)
 - [Estrutura de pastas](#-estrutura-de-pastas)
 - [Contrato com a API](#-contrato-com-a-api)
@@ -37,19 +37,12 @@ npm run dev
 
 Abra <http://localhost:3000>.
 
-## 🔀 Modo mock x backend real
+## 🔌 Conexão com o backend
 
-O frontend escolhe a API pela variável `NEXT_PUBLIC_API_URL`:
-
-| Situação | Comportamento |
-|---|---|
-| Variável **não definida** | **Modo mock:** API simulada no navegador (`localStorage`) com 10 pets de exemplo. Não precisa de backend. |
-| Variável **definida** | Usa o backend real nessa URL. |
-
-### Usando o backend real
+O frontend precisa do backend rodando. Por padrão ele usa `http://localhost:3333`.
 
 1. Suba o backend (porta `3333`) — veja o [README do backend](../backend/README.md).
-2. Crie o arquivo `frontend/.env.local`:
+2. Para usar outra URL, crie o arquivo `frontend/.env.local`:
 
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:3333
@@ -58,10 +51,6 @@ O frontend escolhe a API pela variável `NEXT_PUBLIC_API_URL`:
 3. **Reinicie** o `npm run dev` (o Next.js só lê variáveis de ambiente na inicialização).
 
 > O `.env.local` é ignorado pelo Git.
-
-### Voltando ao mock
-
-Apague (ou comente) a linha do `.env.local` e reinicie o servidor. Para zerar os dados simulados, limpe o `localStorage` do site no navegador.
 
 ## 📜 Scripts
 
@@ -94,7 +83,6 @@ frontend/
 ├── hooks/useLoad.js         carregamento de dados com erro e recarga
 ├── lib/
 │   ├── api.js               cliente da API (HTTP + adaptador do backend)
-│   ├── mock/                API simulada e dados de exemplo
 │   ├── pets.js              espécies, raças e ordenação de fotos
 │   ├── format.js            datas, idade e plural
 │   └── utils.js

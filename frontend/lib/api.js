@@ -1,5 +1,3 @@
-import * as mockApi from "./mock/mockApi";
-
 /*
  * Contrato esperado do back-end (REST + JSON). Para adaptar a outra API, altere só este arquivo.
  *
@@ -13,10 +11,8 @@ import * as mockApi from "./mock/mockApi";
  *   POST   /pets/:id/photos         multipart: files (n arquivos), date, mainIndex (opcional) -> Photo[]
  *   PATCH  /photos/:id/main         marca a foto como principal (desmarca as outras do pet)
  *   DELETE /photos/:id              apaga a foto do bucket e do banco
- *
- * Sem NEXT_PUBLIC_API_URL definido, o front usa uma API simulada no navegador (lib/mock).
  */
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+const BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:3333").replace(/\/$/, "");
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, options);
@@ -56,7 +52,7 @@ const fromPet = (pet) => ({
   dataNascimento: pet.birthDate,
 });
 
-const httpApi = {
+export const api = {
   listPets: () => request("/pets").then((pets) => pets.map(toPet)),
   getPet: (id) => request(`/pets/${id}`).then(toPet),
   createPet: (pet) => request("/pets", json("POST", fromPet(pet))).then(toPet),
@@ -74,6 +70,3 @@ const httpApi = {
   setMainPhoto: (photoId) => request(`/fotos/${photoId}/principal`, { method: "PATCH" }),
   deletePhoto: (photoId) => request(`/fotos/${photoId}`, { method: "DELETE" }),
 };
-
-export const usingMockApi = !BASE_URL;
-export const api = usingMockApi ? mockApi : httpApi;

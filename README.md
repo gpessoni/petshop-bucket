@@ -23,7 +23,7 @@ Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um
 - 📸 **Álbum de fotos** por pet, organizado por data, com **foto principal** escolhida pelo tutor.
 - ☁️ **Imagens no Google Cloud Storage**: o banco guarda apenas os metadados e a URL pública.
 - 🔎 **Busca e filtro** por espécie no álbum.
-- 🧪 **Modo mock**: o frontend funciona sozinho, sem backend, com dados de exemplo.
+- 📖 **API documentada com Swagger**: Swagger UI em `http://localhost:3333/docs`.
 
 ## 🖼️ Telas
 
@@ -64,17 +64,7 @@ Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um
 
 > Pré-requisitos: **Node.js 20+**, **npm** e, para o backend real, **PostgreSQL** e uma **conta de serviço do Google Cloud** com acesso ao bucket.
 
-### Opção 1 — Só o frontend (modo mock, mais rápido)
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Abra <http://localhost:3000>. Sem `NEXT_PUBLIC_API_URL`, os dados ficam no `localStorage` do navegador.
-
-### Opção 2 — Sistema completo (frontend + backend)
+### Frontend + backend
 
 **Terminal 1 — backend** (porta `3333`):
 
@@ -110,7 +100,7 @@ Abra <http://localhost:3000>.
 ## 📚 Documentação detalhada
 
 - 📘 [Backend — API, variáveis de ambiente, endpoints e modelo de dados](backend/README.md)
-- 📗 [Frontend — scripts, modo mock, integração com a API e estrutura](frontend/README.md)
+- 📗 [Frontend — scripts, integração com a API e estrutura](frontend/README.md)
 
 ## 🔐 Segurança
 
