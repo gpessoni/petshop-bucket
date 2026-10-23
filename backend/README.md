@@ -60,7 +60,7 @@ Salve o JSON da Service Account em `credentials/service-account.json` (pasta ign
 ```bash
 npm run generate   # gera o Prisma Client
 npm run migrate    # cria as tabelas
-npm run seed       # opcional: cadastra 11 pets de exemplo
+npm run seed       # opcional: cadastra 11 pets de exemplo (sem fotos; envie-as pela API/Swagger)
 ```
 
 ### 6. Iniciar o servidor
@@ -92,6 +92,8 @@ A API sobe em **http://localhost:3333**.
 | `npm run seed` | Popula o banco com pets de exemplo (ignora se já houver dados) |
 
 ## 🔌 Endpoints
+
+> 📖 **Swagger UI interativo:** com a API rodando, acesse **http://localhost:3333/docs** (JSON OpenAPI em `/docs.json`).
 
 Base: `http://localhost:3333`
 
@@ -193,6 +195,7 @@ backend/
     ├── server.js            inicialização
     ├── app.js               Express, CORS e tratamento de erros
     ├── config/              Prisma e Google Cloud Storage
+    ├── docs/                especificação OpenAPI (Swagger)
     ├── routes/              rotas de pets e fotos
     ├── controllers/         camada HTTP
     ├── services/            regras de negócio e acesso ao bucket

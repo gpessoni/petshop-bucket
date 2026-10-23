@@ -1,6 +1,8 @@
 const express = require('express');
 const petRoutes = require('./routes/petRoutes');
 const fotoRoutes = require('./routes/fotoRoutes');
+const swaggerUi = require('swagger-ui-express');
+const openapi = require('./docs/openapi');
 
 const app = express();
 app.use(express.json());
@@ -14,6 +16,9 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapi, { customSiteTitle: 'Focinho Feliz — API' }));
+app.get('/docs.json', (req, res) => res.json(openapi));
 
 app.use('/pets', petRoutes);
 app.use('/fotos', fotoRoutes);
