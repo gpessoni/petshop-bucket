@@ -1,9 +1,8 @@
 <div align="center">
 
-# 🐾 Focinho Feliz — Álbum de Pets
+# Focinho Feliz — Álbum de Pets
 
-**Um anuário de banhos, brincadeiras e muito amor.**
-Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um por data.
+Aplicação web para cadastro de pets e registro fotográfico das visitas, com histórico organizado por data.
 
 ![Node.js](https://img.shields.io/badge/Node.js-Express_5-339933?logo=nodedotjs&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
@@ -17,15 +16,15 @@ Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um
 
 ---
 
-## ✨ O que o projeto faz
+## Funcionalidades
 
-- 🐶 **Cadastro de pets** com nome, espécie, raça (dropdown conforme a espécie), responsável e data de nascimento.
-- 📸 **Álbum de fotos** por pet, organizado por data, com **foto principal** escolhida pelo tutor.
-- ☁️ **Imagens no Google Cloud Storage**: o banco guarda apenas os metadados e a URL pública.
-- 🔎 **Busca e filtro** por espécie no álbum.
-- 📖 **API documentada com Swagger**: Swagger UI em `http://localhost:3333/docs`.
+- **Cadastro de pets** com nome, espécie, raça (dropdown conforme a espécie), responsável e data de nascimento.
+- **Álbum de fotos** por pet, organizado por data, com **foto principal** escolhida pelo tutor.
+- **Imagens no Google Cloud Storage**: o banco guarda apenas os metadados e a URL pública.
+- **Busca e filtro** por espécie no álbum.
+- **API documentada com Swagger**: Swagger UI em `http://localhost:3333/docs`.
 
-## 🖼️ Telas
+## Telas
 
 | Álbum | Detalhes do pet |
 |:---:|:---:|
@@ -35,7 +34,7 @@ Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um
 |:---:|
 | ![Cadastro](docs/screenshots/cadastro.png) |
 
-## 🧱 Arquitetura
+## Arquitetura
 
 ```
 ┌──────────────┐   REST + JSON   ┌───────────────┐        ┌──────────────┐
@@ -51,7 +50,7 @@ Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um
                                  └───────────────┘
 ```
 
-## 📁 Estrutura do repositório
+## Estrutura do repositório
 
 ```
 .
@@ -60,7 +59,7 @@ Cadastre seus pets, guarde as fotos de cada visita e veja a história de cada um
 └── docs/       Imagens usadas nos READMEs
 ```
 
-## 🚀 Como rodar (resumo)
+## Como rodar (resumo)
 
 > Pré-requisitos: **Node.js 20+**, **npm** e, para o backend real, **PostgreSQL** e uma **conta de serviço do Google Cloud** com acesso ao bucket.
 
@@ -89,7 +88,7 @@ npm run dev
 
 Abra <http://localhost:3000>.
 
-## 🔌 Portas padrão
+## Portas padrão
 
 | Serviço | Porta |
 |---|---|
@@ -97,15 +96,18 @@ Abra <http://localhost:3000>.
 | Backend (Express) | `3333` |
 | PostgreSQL | a definida na `DATABASE_URL` |
 
-## 📚 Documentação detalhada
+## Documentação detalhada
 
-- 📘 [Backend — API, variáveis de ambiente, endpoints e modelo de dados](backend/README.md)
-- 📗 [Frontend — scripts, integração com a API e estrutura](frontend/README.md)
+- [Backend — API, variáveis de ambiente, endpoints e modelo de dados](backend/README.md)
+- [Frontend — scripts, integração com a API e estrutura](frontend/README.md)
 
-## 🔐 Segurança
+## Segurança
 
 `.env` e a pasta `credentials/` (JSON da Service Account) estão no `.gitignore`. **Nunca** envie credenciais para o Git.
 
 ---
 
-<div align="center">Feito com ♥ e muito petisco · FATEC</div>
+## Integrantes
+
+- Gabriel da Silveira Pessoni
+- Lívia Portela Ferreira
