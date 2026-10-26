@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import ConfirmDialog from "./ConfirmDialog";
+import EditPetDialog from "./EditPetDialog";
 import Field from "./Field";
 import PetGallery from "./PetGallery";
 import PhotoHistory from "./PhotoHistory";
@@ -16,6 +18,8 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
   const [showUpload, setShowUpload] = useState(false);
   const [busyId, setBusyId] = useState(null);
   const [actionError, setActionError] = useState("");
+  const [editing, setEditing] = useState(false);
+  const [confirm, setConfirm] = useState(null); // { kind: "photo", photo } | { kind: "pet" }
 
   if (error?.status === 404) return <NotFound onBack={onBack} />;
   if (!pet) return <div className="page-wrap inner-page"><LoadState error={error} onRetry={reload} /></div>;
@@ -34,15 +38,27 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
   }
 
   const setMain = (photo) => run(photo.id, () => api.setMainPhoto(photo.id));
-  const remove = (photo) => {
-    if (window.confirm(`Apagar esta foto de ${pet.name} (${dateLabel(photo.date)})? Ela também será removida do bucket.`)) {
-      run(photo.id, () => api.deletePhoto(photo.id));
+  async function confirmDelete() {
+    const target = confirm;
+    if (target.kind === "photo") {
+      setConfirm(null);
+      run(target.photo.id, () => api.deletePhoto(target.photo.id));
+      return;
     }
-  };
+    setBusyId("pet");
+    try {
+      await api.deletePet(pet.id);
+      onBack();
+    } catch (err) {
+      setActionError(err.message);
+      setConfirm(null);
+      setBusyId(null);
+    }
+  }
 
   return (
     <div className="page-wrap inner-page detail-page">
-      <div className="page-topline"><button className="text-back" type="button" onClick={onBack}>← TODA A TURMA</button><span>📒 FICHA DE ESTRELINHA</span></div>
+      <div className="page-topline"><button className="text-back" type="button" onClick={onBack}>← TODA A TURMA</button></div>
 
       <section className="profile-hero">
         <PetGallery key={pet.id} pet={pet} onPhoto={onPhoto} />
@@ -55,6 +71,10 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
             <span>NASCIMENTO<strong>{dateLabel(pet.birthDate)} 🎂</strong></span>
             <span>ESPÉCIE<strong>{pet.species}</strong></span>
             <span>RAÇA<strong>{pet.breed}</strong></span>
+          </div>
+          <div className="pet-actions">
+            <button className="button button-light" type="button" onClick={() => setEditing(true)}>✏️ Editar</button>
+            <button className="button button-light delete-pet" type="button" onClick={() => setConfirm({ kind: "pet" })}>🗑 Apagar {pet.name}</button>
           </div>
         </div>
       </section>
@@ -69,7 +89,7 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
         {actionError && <p className="form-error" role="alert">{actionError}</p>}
 
         {pet.photos.length ? (
-          <PhotoHistory pet={pet} busyId={busyId} onPhoto={onPhoto} onSetMain={setMain} onDelete={remove} />
+          <PhotoHistory pet={pet} busyId={busyId} onPhoto={onPhoto} onSetMain={setMain} onDelete={(photo) => setConfirm({ kind: "photo", photo })} />
         ) : (
           <div className="no-visits">
             <span>📸</span><h3>A primeira foto ainda vai chegar!</h3>
@@ -79,6 +99,14 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
         )}
         <div className="memory-signoff"><span>✿</span> CONTINUAMOS JUNTANDO MOMENTOS E BOLINHAS DE PELO <span>✿</span></div>
       </section>
+
+      {editing && <EditPetDialog pet={pet} onCancel={() => setEditing(false)} onSaved={() => { setEditing(false); reload(); }} />}
+      {confirm?.kind === "photo" && (
+        <ConfirmDialog title="Apagar esta foto?" message={`A foto de ${pet.name} (${dateLabel(confirm.photo.date)}) será removida do banco e do bucket.`} onConfirm={confirmDelete} onCancel={() => setConfirm(null)} />
+      )}
+      {confirm?.kind === "pet" && (
+        <ConfirmDialog title={`Apagar ${pet.name}?`} message={`${pet.name} e todas as ${pet.photos.length} foto(s) serão removidos do banco e do bucket. Isso não pode ser desfeito.`} confirmLabel={`Apagar ${pet.name}`} busy={busyId === "pet"} onConfirm={confirmDelete} onCancel={() => setConfirm(null)} />
+      )}
     </div>
   );
 }

@@ -9,7 +9,6 @@ export function Header({ page, onNavigate }) {
         <button className={navClass("album")} type="button" onClick={() => onNavigate({ name: "album" })}>Nosso álbum <span className="nav-badge">🐾</span></button>
         <button className={navClass("register")} type="button" onClick={() => onNavigate({ name: "register" })}><span className="nav-plus">＋</span> Adicionar pet</button>
       </nav>
-      <span className="header-note">feito com <b>♥</b> e muito petisco</span>
     </header>
   );
 }
