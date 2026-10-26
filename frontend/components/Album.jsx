@@ -13,8 +13,8 @@ const KNOWN_SPECIES = SPECIES.filter((species) => species !== "Outro");
 
 function matches(pet, filter, query) {
   const speciesOk = filter === "Todos"
-    || (filter === "Outro" ? !KNOWN_SPECIES.includes(pet.species) : pet.species === filter);
-  const searchable = `${pet.name} ${pet.species} ${pet.breed} ${pet.owner}`.toLocaleLowerCase("pt-BR");
+    || (filter === "Outro" ? !KNOWN_SPECIES.includes(pet.especie) : pet.especie === filter);
+  const searchable = `${pet.nome} ${pet.especie} ${pet.raca} ${pet.responsavel}`.toLocaleLowerCase("pt-BR");
   return speciesOk && searchable.includes(query.toLocaleLowerCase("pt-BR"));
 }
 

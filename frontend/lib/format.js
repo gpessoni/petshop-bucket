@@ -1,5 +1,8 @@
+// O backend devolve datas em ISO ("2026-10-26T00:00:00.000Z"); aqui ficamos só com "2026-10-26".
+export const apenasData = (value) => (value ? String(value).slice(0, 10) : "");
+
 function parseDate(value) {
-  const date = value ? new Date(`${value}T12:00:00`) : null;
+  const date = value ? new Date(`${apenasData(value)}T12:00:00`) : null;
   return date && !Number.isNaN(date.getTime()) ? date : null;
 }
 

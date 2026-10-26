@@ -82,7 +82,7 @@ frontend/
 │   └── Field.jsx            campo de formulário
 ├── hooks/useLoad.js         carregamento de dados com erro e recarga
 ├── lib/
-│   ├── api.js               cliente da API (HTTP + adaptador do backend)
+│   ├── api.js               chamadas HTTP ao backend
 │   ├── pets.js              espécies, raças e ordenação de fotos
 │   ├── format.js            datas, idade e plural
 │   └── utils.js
@@ -91,15 +91,15 @@ frontend/
 
 ## 🔌 Contrato com a API
 
-O frontend trabalha internamente com este formato (em inglês):
+O frontend usa os mesmos nomes de campos que o backend devolve, sem conversão no meio:
 
 ```
-Pet (listagem)  { id, name, species, breed, owner, birthDate, mainPhotoUrl, photoCount }
-Pet (detalhe)   { ...Pet, photos: Photo[] }
-Photo           { id, url, date, isMain }
+Pet (listagem)  { id, nome, especie, raca, responsavel, dataNascimento, fotoPrincipalUrl, totalFotos }
+Pet (detalhe)   { ...Pet, fotos: Foto[] }
+Foto            { id, url, dataFoto, principal }
 ```
 
-O backend usa nomes em português (`nome`, `especie`, `raca`...) e responde com `{ sucesso, dados }`. A conversão entre os dois formatos, incluindo as rotas de fotos, acontece **somente** em [`lib/api.js`](lib/api.js). Para ligar outra API, altere só esse arquivo.
+O backend responde com `{ sucesso, dados }` (ou `{ sucesso: false, erro }`) e todas as chamadas ficam em [`lib/api.js`](lib/api.js). As datas chegam em ISO e são reduzidas a `AAAA-MM-DD` por `apenasData` em [`lib/format.js`](lib/format.js).
 
 ### Adicionando espécies e raças
 

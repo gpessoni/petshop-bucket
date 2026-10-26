@@ -63,37 +63,37 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
       <section className="profile-hero">
         <PetGallery key={pet.id} pet={pet} onPhoto={onPhoto} />
         <div className="profile-intro">
-          <span className="profile-sticker">{pet.species} ✿</span>
-          <h1>{pet.name}<span>!</span></h1>
-          <p className="profile-breed">{speciesAndBreed(pet)} <span>·</span> {ageLabel(pet.birthDate)}</p>
+          <span className="profile-sticker">{pet.especie} ✿</span>
+          <h1>{pet.nome}<span>!</span></h1>
+          <p className="profile-breed">{speciesAndBreed(pet)} <span>·</span> {ageLabel(pet.dataNascimento)}</p>
           <div className="profile-details">
-            <span>RESPONSÁVEL<strong>{pet.owner} 🧡</strong></span>
-            <span>NASCIMENTO<strong>{dateLabel(pet.birthDate)} 🎂</strong></span>
-            <span>ESPÉCIE<strong>{pet.species}</strong></span>
-            <span>RAÇA<strong>{pet.breed}</strong></span>
+            <span>RESPONSÁVEL<strong>{pet.responsavel} 🧡</strong></span>
+            <span>NASCIMENTO<strong>{dateLabel(pet.dataNascimento)} 🎂</strong></span>
+            <span>ESPÉCIE<strong>{pet.especie}</strong></span>
+            <span>RAÇA<strong>{pet.raca}</strong></span>
           </div>
           <div className="pet-actions">
             <button className="button button-light" type="button" onClick={() => setEditing(true)}>✏️ Editar</button>
-            <button className="button button-light delete-pet" type="button" onClick={() => setConfirm({ kind: "pet" })}>🗑 Apagar {pet.name}</button>
+            <button className="button button-light delete-pet" type="button" onClick={() => setConfirm({ kind: "pet" })}>🗑 Apagar {pet.nome}</button>
           </div>
         </div>
       </section>
 
       <section className="memories-section">
         <div className="memories-heading">
-          <div><span className="section-kicker">CLIQUE, ESPUMA E MUITO CHAMEGO</span><h2>Histórico de fotos <span>🫧</span></h2><p>Todas as fotos de {pet.name}, organizadas pela data em que foram tiradas.</p></div>
+          <div><span className="section-kicker">CLIQUE, ESPUMA E MUITO CHAMEGO</span><h2>Histórico de fotos <span>🫧</span></h2><p>Todas as fotos de {pet.nome}, organizadas pela data em que foram tiradas.</p></div>
           <button className="button button-primary" type="button" onClick={() => setShowUpload((open) => !open)}>{showUpload ? "Fechar ✕" : "＋ Enviar fotos"}</button>
         </div>
 
         {showUpload && <UploadForm pet={pet} onDone={() => { setShowUpload(false); reload(); }} />}
         {actionError && <p className="form-error" role="alert">{actionError}</p>}
 
-        {pet.photos.length ? (
+        {pet.fotos.length ? (
           <PhotoHistory pet={pet} busyId={busyId} onPhoto={onPhoto} onSetMain={setMain} onDelete={(photo) => setConfirm({ kind: "photo", photo })} />
         ) : (
           <div className="no-visits">
             <span>📸</span><h3>A primeira foto ainda vai chegar!</h3>
-            <p>Envie fotos de {pet.name} e comece esse histórico de lembranças.</p>
+            <p>Envie fotos de {pet.nome} e comece esse histórico de lembranças.</p>
             {!showUpload && <button className="button button-primary" type="button" onClick={() => setShowUpload(true)}>Enviar primeiras fotos <span>🫧</span></button>}
           </div>
         )}
@@ -102,17 +102,17 @@ export default function PetDetails({ petId, onBack, onPhoto }) {
 
       {editing && <EditPetDialog pet={pet} onCancel={() => setEditing(false)} onSaved={() => { setEditing(false); reload(); }} />}
       {confirm?.kind === "photo" && (
-        <ConfirmDialog title="Apagar esta foto?" message={`A foto de ${pet.name} (${dateLabel(confirm.photo.date)}) será removida do banco e do bucket.`} onConfirm={confirmDelete} onCancel={() => setConfirm(null)} />
+        <ConfirmDialog title="Apagar esta foto?" message={`A foto de ${pet.nome} (${dateLabel(confirm.photo.dataFoto)}) será removida do banco e do bucket.`} onConfirm={confirmDelete} onCancel={() => setConfirm(null)} />
       )}
       {confirm?.kind === "pet" && (
-        <ConfirmDialog title={`Apagar ${pet.name}?`} message={`${pet.name} e todas as ${pet.photos.length} foto(s) serão removidos do banco e do bucket. Isso não pode ser desfeito.`} confirmLabel={`Apagar ${pet.name}`} busy={busyId === "pet"} onConfirm={confirmDelete} onCancel={() => setConfirm(null)} />
+        <ConfirmDialog title={`Apagar ${pet.nome}?`} message={`${pet.nome} e todas as ${pet.fotos.length} foto(s) serão removidos do banco e do bucket. Isso não pode ser desfeito.`} confirmLabel={`Apagar ${pet.nome}`} busy={busyId === "pet"} onConfirm={confirmDelete} onCancel={() => setConfirm(null)} />
       )}
     </div>
   );
 }
 
 function UploadForm({ pet, onDone }) {
-  const hasPhotos = pet.photos.length > 0;
+  const hasPhotos = pet.fotos.length > 0;
   const [photos, setPhotos] = useState({ files: [], mainIndex: null });
   const [date, setDate] = useState(today());
   const [error, setError] = useState("");
@@ -134,7 +134,7 @@ function UploadForm({ pet, onDone }) {
 
   return (
     <form className="visit-form" onSubmit={submit}>
-      <div className="visit-form-title"><span>🛁</span><div><h3>Novas fotos de {pet.name}</h3><p>Todas as fotos deste envio ficam registradas na data escolhida.</p></div></div>
+      <div className="visit-form-title"><span>🛁</span><div><h3>Novas fotos de {pet.nome}</h3><p>Todas as fotos deste envio ficam registradas na data escolhida.</p></div></div>
       <div className="form-grid">
         <Field label="Data das fotos *"><input type="date" value={date} max={today()} required onChange={(event) => setDate(event.target.value)} /></Field>
         <div className="field full"><PhotoPicker value={photos} onChange={setPhotos} allowKeepMain={hasPhotos} /></div>

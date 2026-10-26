@@ -8,7 +8,7 @@ const COLORS = ["yellow", "pink", "blue", "lilac"];
 export default function PhotoHistory({ pet, busyId, onPhoto, onSetMain, onDelete }) {
   return (
     <div className="visit-list">
-      {photosByDate(pet.photos).map(([date, photos], index) => (
+      {photosByDate(pet.fotos).map(([date, photos], index) => (
         <article className={`visit-card visit-${COLORS[index % COLORS.length]}`} key={date}>
           <div className="visit-header">
             <time dateTime={date} className="history-date">📅 {dateLabel(date)}</time>
@@ -16,16 +16,16 @@ export default function PhotoHistory({ pet, busyId, onPhoto, onSetMain, onDelete
           </div>
           <div className="history-grid">
             {photos.map((photo) => {
-              const alt = `${pet.name} em ${dateLabel(photo.date)}`;
+              const alt = `${pet.nome} em ${dateLabel(photo.dataFoto)}`;
               const busy = busyId === photo.id;
               return (
-                <figure className={`history-photo ${photo.isMain ? "is-main" : ""} ${busy ? "is-busy" : ""}`} key={photo.id}>
+                <figure className={`history-photo ${photo.principal ? "is-main" : ""} ${busy ? "is-busy" : ""}`} key={photo.id}>
                   <PetPhoto src={photo.url} alt={alt} onClick={() => onPhoto({ src: photo.url, alt })} />
-                  {photo.isMain && <span className="history-main-badge">★ Principal</span>}
+                  {photo.principal && <span className="history-main-badge">★ Principal</span>}
                   <figcaption>
-                    <span>{dateLabel(photo.date)}</span>
+                    <span>{dateLabel(photo.dataFoto)}</span>
                     <span className="history-actions">
-                      {!photo.isMain && <button type="button" onClick={() => onSetMain(photo)} disabled={busy} title="Usar como imagem principal">★ Capa</button>}
+                      {!photo.principal && <button type="button" onClick={() => onSetMain(photo)} disabled={busy} title="Usar como imagem principal">★ Capa</button>}
                       <button className="danger" type="button" onClick={() => onDelete(photo)} disabled={busy} title="Apagar foto">🗑 Apagar</button>
                     </span>
                   </figcaption>

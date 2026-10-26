@@ -8,7 +8,7 @@ import { today } from "../lib/format";
 import { BREEDS, SPECIES } from "../lib/pets";
 import { formText } from "../lib/utils";
 
-const FIELDS = ["name", "species", "breed", "owner", "birthDate"];
+const FIELDS = ["nome", "especie", "raca", "responsavel", "dataNascimento"];
 
 export default function PetForm({ onCancel, onSaved }) {
   const [photos, setPhotos] = useState({ files: [], mainIndex: null });
@@ -46,26 +46,26 @@ export default function PetForm({ onCancel, onSaved }) {
       <form className="form-card" onSubmit={submit}>
         <h2>Dados do pet <span>👋</span></h2>
         <div className="form-grid">
-          <Field label="Nome do pet *"><input name="name" placeholder="Ex.: Totó" required maxLength="50" /></Field>
-          <Field label="Responsável *"><input name="owner" placeholder="Ex.: Gabriel" required maxLength="60" /></Field>
+          <Field label="Nome do pet *"><input name="nome" placeholder="Ex.: Totó" required maxLength="50" /></Field>
+          <Field label="Responsável *"><input name="responsavel" placeholder="Ex.: Gabriel" required maxLength="60" /></Field>
           <Field label="Espécie *">
-            <select name="species" value={species} onChange={(event) => setSpecies(event.target.value)} required>
+            <select name="especie" value={species} onChange={(event) => setSpecies(event.target.value)} required>
               <option value="" disabled>Escolha uma opção</option>
               {SPECIES.map((species) => <option key={species}>{species}</option>)}
             </select>
           </Field>
           <Field label="Raça *">
             {BREEDS[species]?.length ? (
-              <select key={species} name="breed" defaultValue="" required>
+              <select key={species} name="raca" defaultValue="" required>
                 <option value="" disabled>Escolha a raça</option>
                 {BREEDS[species].map((breed) => <option key={breed}>{breed}</option>)}
                 <option>Outra</option>
               </select>
             ) : (
-              <input key={species} name="breed" placeholder={species ? "Ex.: Mini, SRD..." : "Escolha a espécie primeiro"} required maxLength="60" disabled={!species} />
+              <input key={species} name="raca" placeholder={species ? "Ex.: Mini, SRD..." : "Escolha a espécie primeiro"} required maxLength="60" disabled={!species} />
             )}
           </Field>
-          <Field label="Data de nascimento *"><input name="birthDate" type="date" required max={today()} /></Field>
+          <Field label="Data de nascimento *"><input name="dataNascimento" type="date" required max={today()} /></Field>
         </div>
 
         <h2 className="form-subtitle">Fotos <span>📸</span> <small>(opcional — dá pra enviar depois)</small></h2>

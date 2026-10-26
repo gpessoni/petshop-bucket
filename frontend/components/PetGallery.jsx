@@ -7,12 +7,12 @@ import { hideOnError } from "../lib/utils";
 
 // Imagem principal em destaque + miniaturas, como página de produto.
 export default function PetGallery({ pet, onPhoto }) {
-  const photos = galleryOrder(pet.photos);
+  const photos = galleryOrder(pet.fotos);
   const [activeId, setActiveId] = useState(null);
   const index = Math.max(photos.findIndex((photo) => photo.id === activeId), 0);
   const current = photos[index];
   const step = (delta) => setActiveId(photos[(index + delta + photos.length) % photos.length].id);
-  const alt = current && `${pet.name} — foto de ${dateLabel(current.date)}`;
+  const alt = current && `${pet.nome} — foto de ${dateLabel(current.dataFoto)}`;
 
   return (
     <div className="pet-gallery">
@@ -30,8 +30,8 @@ export default function PetGallery({ pet, onPhoto }) {
             <button className="gallery-arrow next" type="button" onClick={() => step(1)} aria-label="Próxima foto">›</button>
           </>
         )}
-        {current && <span className="gallery-counter">{index + 1} / {photos.length} · {dateLabel(current.date)}</span>}
-        {current?.isMain && <span className="gallery-badge">★ IMAGEM PRINCIPAL</span>}
+        {current && <span className="gallery-counter">{index + 1} / {photos.length} · {dateLabel(current.dataFoto)}</span>}
+        {current?.principal && <span className="gallery-badge">★ IMAGEM PRINCIPAL</span>}
       </div>
 
       {photos.length > 1 && (
